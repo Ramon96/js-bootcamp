@@ -69,9 +69,107 @@ Having the looping condition produce false is not the only way a loop can finish
 
 The continue keyword is similar to break, in that it influences the progress of a loop. When continue is encountered in a loop body, control jumps out of the body and continues with the loop’s next iteration.
 
-
-
 ## Chapter 3
+A function is created with an expression that starts with the keyword function. Functions have a set of parameters (in this case, only x) and a body, which contains the statements that are to be executed when the function is called. The function body of a function created this way must always be wrapped in braces, even when it consists of only a single statement.
+
+A return keyword without an expression after it will cause the function to return undefined. Functions that don’t have a return statement at all, such as makeNoise, similarly return undefined.
+
+Parameters to a function behave like regular bindings, but their initial values are given by the caller of the function, not the code in the function itself.
+
+Each binding has a scope, which is the part of the program in which the binding is visible. For bindings defined outside of any function or block, the scope is the whole program—you can refer to such bindings wherever you want. These are called global.
+
+Bindings declared with let and const are in fact local to the block that they are declared in, so if you create one of those inside of a loop, the code before and after the loop cannot “see” it. In pre-2015 JavaScript, only functions created new scopes, so old-style bindings, created with the var keyword, are visible throughout the whole function that they appear in—or throughout the global scope, if they are not in a function.
+
+JavaScript distinguishes not just global and local bindings. Blocks and functions can be created inside other blocks and functions, producing multiple degrees of locality.
+
+function square(x) {
+  return x * x;
+}
+
+This is a function declaration. The statement defines the binding square and points it at the given function. It is slightly easier to write and doesn’t require a semicolon after the function.
+
+There’s a third notation for functions, which looks very different from the others. Instead of the function keyword, it uses an arrow (=>) made up of an equal sign and a greater-than character (not to be confused with the greater-than-or-equal operator, which is written >=).
+
+const power = (base, exponent) => {
+  let result = 1;
+  for (let count = 0; count < exponent; count++) {
+    result *= base;
+  }
+  return result;
+};
+
+When there is only one parameter name, you can omit the parentheses around the parameter list. If the body is a single expression, rather than a block in braces, that expression will be returned from the function. So, these two definitions of square do the same thing:
+
+const square1 = (x) => { return x * x; };
+const square2 = x => x * x;
+When an arrow function has no parameters at all, its parameter list is just an empty set of parentheses.
+
+const horn = () => {
+  console.log("Toot");
+};
+
+There’s no deep reason to have both arrow functions and function expressions in the language. Apart from a minor detail, which we’ll discuss in Chapter 6, they do the same thing.
+
+We want to write a program that prints two numbers: the numbers of cows and chickens on a farm, with the words Cows and Chickens after them and zeros padded before both numbers so that they are always three digits long.
+
+007 Cows
+011 Chickens
+This asks for a function of two arguments—the number of cows and the number of chickens. Let’s get coding.
+
+function printFarmInventory(cows, chickens) {
+  let cowString = String(cows);
+  while (cowString.length < 3) {
+    cowString = "0" + cowString;
+  }
+  console.log(`${cowString} Cows`);
+  let chickenString = String(chickens);
+  while (chickenString.length < 3) {
+    chickenString = "0" + chickenString;
+  }
+  console.log(`${chickenString} Chickens`);
+}
+printFarmInventory(7, 11);
+Writing .length after a string expression will give us the length of that string. Thus, the while loops keep adding zeros in front of the number strings until they are at least three characters long.
+
+Mission accomplished! But just as we are about to send the farmer the code (along with a hefty invoice), she calls and tells us she’s also started keeping pigs, and couldn’t we please extend the software to also print pigs?
+
+We sure can. But just as we’re in the process of copying and pasting those four lines one more time, we stop and reconsider. There has to be a better way. Here’s a first attempt:
+
+function printZeroPaddedWithLabel(number, label) {
+  let numberString = String(number);
+  while (numberString.length < 3) {
+    numberString = "0" + numberString;
+  }
+  console.log(`${numberString} ${label}`);
+}
+
+function printFarmInventory(cows, chickens, pigs) {
+  printZeroPaddedWithLabel(cows, "Cows");
+  printZeroPaddedWithLabel(chickens, "Chickens");
+  printZeroPaddedWithLabel(pigs, "Pigs");
+}
+
+printFarmInventory(7, 11, 3);
+It works! But that name, printZeroPaddedWithLabel, is a little awkward. It conflates three things—printing, zero-padding, and adding a label—into a single function.
+
+Instead of lifting out the repeated part of our program wholesale, let’s try to pick out a single concept.
+
+function zeroPad(number, width) {
+  let string = String(number);
+  while (string.length < width) {
+    string = "0" + string;
+  }
+  return string;
+}
+
+function printFarmInventory(cows, chickens, pigs) {
+  console.log(`${zeroPad(cows, 3)} Cows`);
+  console.log(`${zeroPad(chickens, 3)} Chickens`);
+  console.log(`${zeroPad(pigs, 3)} Pigs`);
+}
+
+printFarmInventory(7, 16, 3);
+A function with a nice, obvious name like zeroPad makes it easier for someone who reads the code to figure out what it does.
 
 ## Chapter 4
 
