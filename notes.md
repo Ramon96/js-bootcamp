@@ -443,7 +443,39 @@ In object-oriented programming terms, this is called inheritance. The new class 
 The use of the word extends indicates that this class shouldn’t be directly based on the default Object prototype but on some other class. This is called the superclass. The derived class is the subclass.
 
 ## Chapter 8
+JavaScript can be made a little stricter by enabling strict mode. This is done by putting the string "use strict" at the top of a file or a function body.
 
+One thing about types is that they need to introduce their own complexity to be able to describe enough code to be useful.
+
+There are several JavaScript dialects that add types to the language and check them. The most popular one is called TypeScript. 
+
+Tests usually take the form of little labeled programs that verify some aspect of your code.
+
+Writing tests like this tends to produce rather repetitive, awkward code. Fortunately, there exist pieces of software that help you build and run collections of tests (test suites)
+
+This is where you must resist the urge to start making random changes to the code to see whether that makes it better. Instead, think. Analyze what is happening and come up with a theory of why it might be happening. Then, make additional observations to test this theory—or, if you don’t yet have a theory, make additional observations to help you come up with one.
+
+Putting a few strategic console.log calls into the program is a good way to get additional information about what the program is doing.
+
+An alternative to using console.log to peek into the program’s behavior is to use the debugger capabilities of your browser. Browsers come with the ability to set a breakpoint on a specific line of your code. When the execution of the program reaches a line with a breakpoint, it is paused, and you can inspect the values of bindings at that point.
+
+One option is to make it return a special value. Common choices for such values are null, undefined, or -1.
+
+When a function cannot proceed normally, what we would like to do is just stop what we are doing and immediately jump to a place that knows how to handle the problem. This is what exception handling does.
+
+Exceptions are a mechanism that makes it possible for code that runs into a problem to raise (or throw) an exception.
+
+If exceptions always zoomed right down to the bottom of the stack, they would not be of much use. They’d just provide a novel way to blow up your program. Their power lies in the fact that you can set “obstacles” along the stack to catch the exception as it is zooming down.
+
+The throw keyword is used to raise an exception. Catching one is done by wrapping a piece of code in a try block, followed by the keyword catch. When the code in the try block causes an exception to be raised, the catch block is evaluated, with the name in parentheses bound to the exception value. After the catch block finishes—or if the try block finishes without problems—the program proceeds beneath the entire try/catch statement.
+
+But that isn’t always practical. So there is another feature that try statements have. They may be followed by a finally block either instead of or in addition to a catch block. A finally block says “no matter what happens, run this code after trying to run the code in the try block.”
+
+For programmer mistakes, just letting the error go through is often the best you can do. An unhandled exception is a reasonable way to signal a broken program, and the JavaScript console will, on modern browsers, provide you with some information about which function calls were on the stack when the problem occurred.
+
+For problems that are expected to happen during routine use, crashing with an unhandled exception is a terrible strategy.
+
+When a catch body is entered, all we know is that something in our try body caused an exception. But we don’t know what did or which exception it caused.
 ## Chapter 9
 
 ## Chapter 10
